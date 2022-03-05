@@ -24,6 +24,15 @@ import json
 import requests
 
 
+# Constants
+
+API_KEY          = "RASPBERRY_PI_DEMO_TOKEN"
+THINGSBOARD_HOST = "96.126.105.251"
+
+thingsboard_url  = "http://{0}/api/v1/{1}/telemetry".format(THINGSBOARD_HOST, API_KEY)
+
+data = {}
+
 def setup():
 	print ('\n Barometer begins...')
 
@@ -37,17 +46,18 @@ def loop():
         
 	#temp = {0:0.2f} C.format(temp);
 
-		print ('')
-		#print ('      Temperature = {0:0.2f} C'.format(temp))		# Print temperature
-		print ('      Temperature =', tempo)		# Print temperature
-		#print ('      Pressure = {0:0.2f} Pa'.format(pressure))	# Print pressure
-		print ('      Pressure =', pression)	# Print pressure
+		#print ('')
+		#print ('      Temperature =', tempo)		# Print temperature
+		#print ('      Pressure =', pression)	# Print pressure
 		
-		#data['temperature'] = tempo
-		#data['pressure']    = sense.get_pressure()
+		data['temperature'] = tempo
+		data['pressure']    = pression
+		
+		#r = requests.post(thingsboard_url, data=json.dumps(data))
+		print(str(data))
 		
 		
-		time.sleep(1)
+		time.sleep(5)
 		print ('')
 
 def destroy():
