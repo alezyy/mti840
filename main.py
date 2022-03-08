@@ -27,7 +27,7 @@ import requests
 # Constants
 
 API_KEY          = "RASPBERRY_PI_DEMO_TOKEN"
-THINGSBOARD_HOST = "96.126.105.251"
+THINGSBOARD_HOST = "96.126.105.251:9090"
 
 thingsboard_url  = "http://{0}/api/v1/{1}/telemetry".format(THINGSBOARD_HOST, API_KEY)
 
@@ -43,22 +43,17 @@ def loop():
 		pressure = sensor.read_pressure()	# Read pressure to veriable pressure
 		tempo = '{0:0.2f} C'.format(temp)
 		pression = '{0:0.2f} Pa'.format(pressure)
+		
+		tempDesired = 90.1
         
-	#temp = {0:0.2f} C.format(temp);
-
-		#print ('')
-		#print ('      Temperature =', tempo)		# Print temperature
-		#print ('      Pressure =', pression)	# Print pressure
-		
-		data['temperature'] = tempo
+		headers = {'Content-type': 'application/json',}
+		data['temperature'] = temp
 		data['pressure']    = pression
-		
-		#r = requests.post(thingsboard_url, data=json.dumps(data))
+		power = ((tempDesired - temp)/6)*100
+				
+		r = requests.post(thingsboard_url, headers=headers, data=json.dumps(data))
 		print(str(data))
-		
-		
 		time.sleep(5)
-		print ('')
 
 def destroy():
 	pass
