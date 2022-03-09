@@ -22,6 +22,7 @@ import Adafruit_Python_BMP.Adafruit_BMP.BMP085 as BMP085
 import time
 import json
 import requests
+import random
 
 
 # Constants
@@ -44,16 +45,18 @@ def loop():
 		tempo = '{0:0.2f} C'.format(temp)
 		pression = '{0:0.2f} Pa'.format(pressure)
 		
-		tempDesired = 90.1
+		tempDesired = random.randint(0, 100)
         
 		headers = {'Content-type': 'application/json',}
 		data['temperature'] = temp
 		data['pressure']    = pression
 		power = ((tempDesired - temp)/6)*100
-				
+		data['power'] = power	
+			
 		r = requests.post(thingsboard_url, headers=headers, data=json.dumps(data))
 		print(str(data))
 		time.sleep(5)
+		
 
 def destroy():
 	pass
